@@ -17,14 +17,10 @@ class Entity:
         self.blocks = blocks
         self.render_order = render_order
         self.fighter = fighter
-        self.harmless = harmless
         self.ai = ai
 
         if self.fighter:
             self.fighter.owner = self
-
-        if self.harmless:
-            self.harmless.owner = self
 
         if self.ai:
             self.ai.owner = self

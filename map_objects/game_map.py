@@ -1,13 +1,10 @@
 import tcod as libtcod
+
 from random import randint
-
-from components.ai import BasicMonster, HarmlessEntity
+from components.ai import BasicMonster
 from components.fighter import Fighter
-from components.harmless import Harmless
-
 from entity import Entity
 from render_functions import RenderOrder
-
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 
@@ -104,18 +101,18 @@ class GameMap:
             y = randint(room.y1 + 1, room.y2 - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                if randint(0, 100) <= 20:
+                if randint(0, 100) < 80:
                     fighter_component = Fighter(hp=10, defense=0, power=3)
                     ai_component = BasicMonster()
-                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
-                elif randint(0,100) <= 40:
+
+                    monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True,
+                                     render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+                else:
                     fighter_component = Fighter(hp=16, defense=1, power=4)
                     ai_component = BasicMonster()
-                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
-                else:
-                    harmless_component = Harmless(hp=6, defense=0)
-                    ai_component = HarmlessEntity()
-                    monster = Entity(x, y, 'K', libtcod.light_purple, 'Killable Child', blocks=True, render_order=RenderOrder.ACTOR, harmless=harmless_component, ai=ai_component)
+
+                    monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, fighter=fighter_component,
+                                     render_order=RenderOrder.ACTOR, ai=ai_component)
 
                 entities.append(monster)
 
